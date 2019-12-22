@@ -12,6 +12,11 @@ using System.Linq;
 
 namespace DocumentProxy
 {
+    /// <summary>
+    /// Supports status update callbacks using a PUT by the 3rd party service.
+    /// This function is configured to allow Anonymous access to simplify running the function.
+    /// In production security protections would need to be used to protect the service from malicious use.
+    /// </summary>
     public static class DocumentPutCallback
     {
         private static string[] _validStatus = new string[] { "PROCESSED", "COMPLETED", "ERROR" };
