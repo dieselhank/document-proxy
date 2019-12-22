@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace DocumentProxy.Models
     /// </summary>
     public class DocumentDetails
     {
+        [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }
         public string Body { get; set; }
         public DateTime CreatedOn { get; set; }
