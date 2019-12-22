@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using DocumentProxy.Models;
+using DocumentProxy.ServiceClient;
 
 namespace DocumentProxy
 {
@@ -36,7 +37,16 @@ namespace DocumentProxy
                 var documentId = Guid.NewGuid();
 
                 // call 3rd party service
-
+                // the documentId is included in the url so that the subsequent callback request can be matched to the original request.
+                var callbackUrl = $"/callback/{documentId}";
+                var docServiceRequest = new DocServiceRequest
+                {
+                    Body = requestDetails.Body,
+                    Callback = callbackUrl
+                };
+                // This should be injected with DI
+                IDocServiceClient docServiceClient = new DocServiceClient();
+                await docServiceClient.RequestAsync(docServiceRequest);
 
                 // saved results to db
                 var document = new DocumentDetails
