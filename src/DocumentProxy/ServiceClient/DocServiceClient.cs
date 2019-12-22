@@ -13,11 +13,12 @@ namespace DocumentProxy.ServiceClient
     /// </summary>
     public class DocServiceClient : IDocServiceClient
     {
-        public async Task RequestAsync(DocServiceRequest request)
+        public Task RequestAsync(DocServiceRequest request)
         {
             // call 3rd party service with HttpClient
             // errors could be caught and logged here
             // but errors should be propagated up to the Function to be caught so proper responses can be generated.
+            return Task.CompletedTask;
         }
     }
 }
