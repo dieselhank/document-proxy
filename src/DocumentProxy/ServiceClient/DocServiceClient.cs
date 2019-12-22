@@ -18,6 +18,7 @@ namespace DocumentProxy.ServiceClient
             // call 3rd party service with HttpClient
             // errors could be caught and logged here
             // but errors should be propagated up to the Function to be caught so proper responses can be generated.
+            // some retry logic could be implemented but Azure Functions do have a timeout.
             return Task.CompletedTask;
         }
     }

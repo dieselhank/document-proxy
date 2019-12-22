@@ -14,6 +14,10 @@ namespace DocumentProxy
 {
     public static class DocumentRequest
     {
+        /// <summary>
+        /// This function is configured to allow Anonymous access to simplify running the function.
+        /// In production security protections would need to be used to protect the service from malicious use.
+        /// </summary>
         [FunctionName("request")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "request")]HttpRequest req,
@@ -52,7 +56,8 @@ namespace DocumentProxy
                 var document = new DocumentDetails
                 {
                     Id = documentId,
-                    Body = requestDetails.Body
+                    Body = requestDetails.Body,
+                    CreatedOn = DateTime.UtcNow
                 };
                 await documents.AddAsync(document);
 
