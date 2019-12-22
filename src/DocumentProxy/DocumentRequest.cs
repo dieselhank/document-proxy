@@ -33,6 +33,7 @@ namespace DocumentProxy
             {
                 log.LogInformation("Document request started.");
 
+                // would probably want some validation of body size
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 var requestDetails = JsonConvert.DeserializeObject<RequestDetails>(requestBody);
 

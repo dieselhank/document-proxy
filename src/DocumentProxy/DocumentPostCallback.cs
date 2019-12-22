@@ -36,11 +36,14 @@ namespace DocumentProxy
             if(requestBody != "STARTED") return new BadRequestObjectResult("Invalid request");
             if(document == null) return new BadRequestObjectResult("Invalid request");
 
-            document.Status.Add(new DocumentStatus { Status = "STARTED", Detail = "", CreatedOn = DateTime.UtcNow });
+            document.Status.Add(new DocumentStatus {
+                Status = "STARTED",
+                Detail = "",
+                CreatedOn = DateTime.UtcNow });
 
             // possible error conditions
             //  duplicate calls
-            //  request not found
+            //  document for id not found
             //  cosmos db connection timeout/errors
 
             return new NoContentResult();
