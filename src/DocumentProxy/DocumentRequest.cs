@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using DocumentProxy.Models;
 
 namespace DocumentProxy
 {
@@ -14,20 +15,22 @@ namespace DocumentProxy
     {
         [FunctionName("request")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "request")]HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
-
-            string name = req.Query["name"];
+            log.LogInformation("Document request started.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
+            var requestDetails = JsonConvert.DeserializeObject<RequestDetails>(requestBody);
 
-            return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
-                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+            if(requestDetails == null) return (ActionResult)new BadRequestObjectResult("Invalid request body");
+
+            // create id
+            // call 3rd party service
+            // saved results to db
+            // return results
+
+            return (ActionResult)new OkObjectResult($"{requestDetails?.Body}");
         }
     }
 }
