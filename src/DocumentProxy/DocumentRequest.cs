@@ -30,12 +30,14 @@ namespace DocumentProxy
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 var requestDetails = JsonConvert.DeserializeObject<RequestDetails>(requestBody);
 
-                if (requestDetails == null) return (ActionResult)new BadRequestObjectResult("Invalid request body");
+                if (string.IsNullOrWhiteSpace(requestDetails?.Body)) return (ActionResult)new BadRequestObjectResult("Invalid request");
 
                 // create id
                 var documentId = Guid.NewGuid();
 
                 // call 3rd party service
+
+
                 // saved results to db
                 var document = new DocumentDetails
                 {
@@ -45,11 +47,13 @@ namespace DocumentProxy
                 await documents.AddAsync(document);
 
                 // return results
-
                 return (ActionResult)new OkObjectResult($"{documentId}");
             }
             catch(Exception exception)
             {
+                // most likely errors to occur
+                //  Error communitcating with 3rd party service
+                //  Error communitcating with Cosmos DB
                 log.LogError(exception, "Error processing request");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
