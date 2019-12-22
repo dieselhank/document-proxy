@@ -16,21 +16,43 @@ namespace DocumentProxy
         [FunctionName("request")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "request")]HttpRequest req,
+            [CosmosDB(
+                databaseName: "DocumentProxy",
+                collectionName: "Documents",
+                CreateIfNotExists = true,
+                ConnectionStringSetting = "CosmosDBConnection")]IAsyncCollector<DocumentDetails> documents,
             ILogger log)
         {
-            log.LogInformation("Document request started.");
+            try
+            {
+                log.LogInformation("Document request started.");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var requestDetails = JsonConvert.DeserializeObject<RequestDetails>(requestBody);
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                var requestDetails = JsonConvert.DeserializeObject<RequestDetails>(requestBody);
 
-            if(requestDetails == null) return (ActionResult)new BadRequestObjectResult("Invalid request body");
+                if (requestDetails == null) return (ActionResult)new BadRequestObjectResult("Invalid request body");
 
-            // create id
-            // call 3rd party service
-            // saved results to db
-            // return results
+                // create id
+                var documentId = Guid.NewGuid();
 
-            return (ActionResult)new OkObjectResult($"{requestDetails?.Body}");
+                // call 3rd party service
+                // saved results to db
+                var document = new DocumentDetails
+                {
+                    Id = documentId,
+                    Body = requestDetails.Body
+                };
+                await documents.AddAsync(document);
+
+                // return results
+
+                return (ActionResult)new OkObjectResult($"{documentId}");
+            }
+            catch(Exception exception)
+            {
+                log.LogError(exception, "Error processing request");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }
