@@ -12,12 +12,13 @@ using DocumentProxy.ServiceClient;
 
 namespace DocumentProxy
 {
+    /// <summary>
+    /// Supports initiating a request to the service to process a document.
+    /// Note: This function is configured to allow Anonymous access to simplify running the function.
+    /// In production security protections would need to be used to protect the service from malicious use.
+    /// </summary>
     public static class DocumentRequest
     {
-        /// <summary>
-        /// This function is configured to allow Anonymous access to simplify running the function.
-        /// In production security protections would need to be used to protect the service from malicious use.
-        /// </summary>
         [FunctionName("request")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "request")]HttpRequest req,
@@ -35,7 +36,7 @@ namespace DocumentProxy
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 var requestDetails = JsonConvert.DeserializeObject<RequestDetails>(requestBody);
 
-                if (string.IsNullOrWhiteSpace(requestDetails?.Body)) return (ActionResult)new BadRequestObjectResult("Invalid request");
+                if (string.IsNullOrWhiteSpace(requestDetails?.Body)) return new BadRequestObjectResult("Invalid request");
 
                 // create id
                 var documentId = Guid.NewGuid();
@@ -62,7 +63,7 @@ namespace DocumentProxy
                 await documents.AddAsync(document);
 
                 // return results
-                return (ActionResult)new OkObjectResult($"{documentId}");
+                return new OkObjectResult($"{documentId}");
             }
             catch(Exception exception)
             {
