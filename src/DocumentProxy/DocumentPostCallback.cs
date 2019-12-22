@@ -42,6 +42,7 @@ namespace DocumentProxy
                 CreatedOn = DateTime.UtcNow });
 
             // possible error conditions
+            //  post not called first
             //  duplicate calls
             //  document for id not found
             //  cosmos db connection timeout/errors
