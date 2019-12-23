@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "fa67dccc-cfbb-4dd1-a5f7-ca118365a8d5",
+		"name": "DocumentProxy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "request post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"body\": \"doc123.txt\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7071/request",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7071",
+					"path": [
+						"request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "callback post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "STARTED"
+				},
+				"url": {
+					"raw": "http://localhost:7071/callback/18fce298-bb47-4ca6-b515-1a5eafc69d40",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7071",
+					"path": [
+						"callback",
+						"18fce298-bb47-4ca6-b515-1a5eafc69d40"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "callback put",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"status\": \"COMPLETED\",\n  \"detail\": \"done\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7071/callback/18fce298-bb47-4ca6-b515-1a5eafc69d40",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7071",
+					"path": [
+						"callback",
+						"18fce298-bb47-4ca6-b515-1a5eafc69d40"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "status get",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7071/status/18fce298-bb47-4ca6-b515-1a5eafc69d40",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7071",
+					"path": [
+						"status",
+						"18fce298-bb47-4ca6-b515-1a5eafc69d40"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
