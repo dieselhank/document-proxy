@@ -25,7 +25,3 @@ Another option for starting the Azure Functions project is to execute `func star
 It is recommended to use a tool like Postman to make calls to the services.
 
 The file `\documents\design.md` contains more details about each function and how to call them.
-
-
-
-
